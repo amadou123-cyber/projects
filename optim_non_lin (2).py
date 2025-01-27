@@ -3,7 +3,7 @@ from scipy.optimize import minimize_scalar
 import pdb
 
 def affichage(titre, xc, fc, gc, cvg, tolg, tolx, norm_gc, errx, it):
-    """ fonction utilitaire pour résumer une optimisation
+    """ fonction utilitaire pour résumer une optimisation 
 
     titre : chaîne de caractères
     xc : point terminal obtenu par optimisation
