@@ -9,7 +9,7 @@ A = np.array([[1, 2],
 # pour la DVS ``économique'' : U est (m,K), s est 1d de taille K et VT est (K,n)
 U, s, VT = lin.svd(A, full_matrices=False)
 
-print("\n Exercice 4")
+print("\n Test 3")
 
 print(f"\n DVS de la matrice : A = \n {A}")
 print(f"\n U = \n {U}")
