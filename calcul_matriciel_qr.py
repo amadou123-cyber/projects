@@ -15,7 +15,7 @@ proj_b = Q.T@b
 # résolution du système triangulaire sup Rx=proj_b
 x = lin.solve_triangular(R, proj_b) # plein d'autres options
 res = A@x - b
-print("\n Exercice 2")
+print("\n Test 2")
 print("\n Résolution via une factorisation QR économique, on obtient :")
 print(f" x = {x}")
 print(f" || Ax - b ||/||b|| = {lin.norm(res)/lin.norm(b)}")
