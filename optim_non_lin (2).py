@@ -1,7 +1,3 @@
-""" Module d'optimisation après le TP 3 (contient le gradient conjugué
-    et l'entête de penalisation)
-"""
-
 import numpy as np
 from scipy.optimize import minimize_scalar
 import pdb
@@ -403,3 +399,39 @@ def penalisation(f, grd_f, c, J_c, x0, Mu, meth = gradient_pas_optimal, tolg=1e-
 
     return xc, f(xc, *fparam), grd_f(xc, *fparam), c(xc, *cparam)
 
+def pc2_cstr(xx, r):
+    x, y = xx
+    return np.array([1-x, y - 1, r**2 - (x-1)**2 - (y-1)**2])
+
+def pc2_J_cstr(xx, r):
+    x, y = xx
+    return np.array([[-1, 0],
+                     [0,  1],
+                     [-2*(x-1), -2*(y-1)]])
+
+x0 = np.array([-1, 1])
+Mu = [1, 10, 100, 1000, 10000, 100000, 1000000]
+
+
+C = 10
+r = 0.05
+
+print("\n********************************")
+print(" Exemple 2 : test 1")
+
+x1, fx1, gx1, cx1 = penalisation(rosenbrock, grd_rosenbrock, pc2_cstr, pc2_J_cstr, x0,
+                             Mu, fparam=(C,), cparam=(r,), meth=gradient_conjugue)
+
+
+print("\n********************************")
+print(" Exemple 2 : test 2 (où on repart à partir du point obtenu suite au test 1")
+print("                       avec 3 valeurs du paramètre de pénalisation plus élevée)")
+# on continue le calcul avec des valeurs plus élevée
+Mu = [1e7, 1e8, 1e9]
+x2, fx2, gx2, cx2 = penalisation(rosenbrock, grd_rosenbrock, pc2_cstr, pc2_J_cstr, x1,
+                             Mu, fparam=(C,), cparam=(r,), meth=gradient_conjugue)
+
+print("\n********************************")
+print(" Exemple 2 : test 2 bis (idem au test 2 mais avec le paramètre tolx plus petit)")
+x2bis, fx2bis, gx2bis, cx2bis = penalisation(rosenbrock, grd_rosenbrock, pc2_cstr, pc2_J_cstr, x1,
+                             Mu, fparam=(C,), cparam=(r,), meth=gradient_conjugue, tolx=1e-16)
