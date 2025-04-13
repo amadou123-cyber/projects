@@ -1,6 +1,18 @@
 from numpy import zeros, argmin, inf, outer
 
 def simplexe(c, A, b, J, K, itermax, B) :
+    """
+    Le code retournera plusieurs arguments :
+    — un entier (qu’on appelera stat) donnant le status du calcul :
+    1 si le minimum est atteint (couts réduits positifs), 
+    2 si la fonction est non minor´ee sur le domaine D = {x ∈ Rn : Ax = b,x ≥ 0},
+    3 si on a d´epass´e le nombre maximum d’it´erations (sans donc avoir détecté l’optimalité ou la non minoration de f);
+   — la dernière solution de base obtenue (qui est donc la solution lorsque stat = 1);
+   — la valeur de la fonction pour la derni`ere solution de base obtenue;
+   — la dernière base obtenue (les indices de base J et ceux hors-base K);
+   — l’inverse de la dernière matrice AJ ;
+  — le nombre d’itérations
+ """
     m, n = A.shape
     it = 0
     J = J.copy()
