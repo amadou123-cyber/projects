@@ -1,0 +1,262 @@
+# M2 SMSD - Corrections sur les classes, héritage
+
+
+########################################################################################################################
+# Exercice - la classe Point
+
+# On définit la classe Point
+class Point:
+    """Définir un point dans un plan de dimension 3"""
+    def __init__(self, x, y, z):
+        """
+        Constructeur de la classe Point
+        
+        Parameters
+         x (int | float): Coordonnée x du point
+         y (int | float): Coordonnée y du point
+         z (int | float): Coordonnée z du point
+        """
+        self.x = x
+        self.y = y
+        self.z = z
+
+    def afficher_point(self):
+        """Affiche dans la console les coordonnées du point"""
+        print(f"Le point a pour coordonnées ({self.x},{self.y},{self.z}))")
+
+    def distance_origine(self):
+        """Renvoit la distance entre le point et l'origine"""
+        return (self.x**2 + self.y**2 + self.z**2 )**0.5
+
+    def distance_point(self, p):
+        """Renvoit la distance entre le point et un autre point
+
+        Args:
+            p (Point): une autre instance de la classe Point
+            
+        Returns:
+            float: distance entre le point self et p            
+        """
+        return ((self.x - p.x)**2 + (self.y - p.y)**2 + (self.z - p.z)**2 )**0.5
+
+
+# on dit que p est une instance de la classe Point
+p = Point(3,4,3)
+print(p)
+
+# On accède aux attributs de p en faisant p.nom_attribut
+print(p.x)
+print(f"Le point p a pour coordonnées ({p.x},{p.y},{p.z})")
+
+# On accède aux méthodes de p en faisant p.nom_methode()
+p.afficher_point()
+p.distance_origine()
+
+# On définit un 2e point
+p2 = Point(1,1,1)
+p.distance_point(p2)
+p2.distance_point(p)
+
+
+
+########################################################################################################################
+# Exercice - la classe Rectangle
+#Créer une classe Rectangle dont les attributs sont la longueur et la largeur.
+
+# Ecrire 3 méthodes :
+# calculer_périmètre() # Renvoie le périmètre du rectangle
+# calculer_aire() # Renvoie l’aire du rectangle
+# is_carre() # Renvoie un booléen qui indique si le rectangle est un carré.
+
+# Créer plusieurs variables de rectangles à partir de la classe Rectangle et 
+# utiliser les méthodes pour calculer leurs périmètre, aire, et indiquer si c’est un carré.
+
+class Rectangle:
+    "Définir un rectangle"
+    def __init__(self, largeur, longueur):
+        """
+        Constructeur de la classe Rectangle
+        
+        Parameters
+         largeur (int | float): Largeur du rectangle
+         longueur (int | float): Longueur du rectangle
+        """
+        self.largeur = largeur
+        self.longueur = longueur
+
+    def caculer_perimetre(self):
+        """Renvoie le périmètre du rectangle"""
+        return 2 * self.largeur + 2 * self.longueur
+
+    def caculer_aire(self):
+        """Renvoie l'aire' du rectangle"""
+        return self.largeur * self.longueur
+
+    def is_carre(self):
+        """Renvoie True si le rectangle est un carré, False sinon"""
+        return self.largeur == self.longueur
+
+a = Rectangle(5, 10)
+print("Le périmètre de a est " + str(a.caculer_perimetre()))
+print("L'aire de a est " + str(a.caculer_aire()))
+print("a est un carré") if a.is_carre() else print("a n'est pas un carré")
+
+
+b = Rectangle(7, 7)
+print("Le périmètre de b est " + str(b.caculer_perimetre()))
+print("L'aire de b est " + str(b.caculer_aire()))
+print("b est un carré") if b.is_carre() else print("b n'est pas un carré")
+
+
+
+########################################################################################################################
+# Exercice - la classe Client
+
+class Client:
+    """
+    Définir un client
+    
+    ...
+    
+    Attributes
+    ----------
+    prenom (str): Prénom du client
+    nom (str): Nom du client
+    total_depense (float): Montant total dépensé. Défaut : 0.
+    id (int): Numéro d'instance de la classe Client 
+    
+    Data
+    ----------
+    count (int): Compteur d'instances de la classe Client. Commence à 1001.
+    
+    
+    Methods
+    -------
+    affiche_client():
+        Affiche dans la console les coordonnées du point
+    ajouter_depense(montant):
+        Ajoute une dépense au total dépensé par le client
+    affiche_depense():
+        Affiche le total dépensé par le client
+    compare_depense(client2):
+        Compare le client avec un autre client, et renvoie l'identifiant du client ayant dépensé le plus
+    """
+
+    count = 1001
+
+    def __init__(self, prenom, nom, total_depense = 0):
+        """
+        Constructeur de la classe Rectangle
+        
+        Parameters
+            prenom (str): Prénom du client
+            nom (str): Nom du client
+            total_depense (float): Montant total dépensé. Défaut : 0.
+        """
+        self.prenom = prenom.title()
+        self.nom = nom.upper()
+        self.id = Client.count
+        self.total_depense = total_depense
+        Client.count += 1
+
+    def affiche_client(self):
+        """Affiche le prénom, le nom et l'identifiant du client"""
+        print(f"{self.prenom} {self.nom}, id: {self.id}")
+
+    def ajouter_depense(self, montant):
+        """Ajoute une dépense au total dépensé par le client
+        
+        Args:
+            montant (float): Dépense du client
+        """
+        self.total_depense = self.total_depense + montant
+        # on peut renvoyer self quand on modifie les attributs de la classe
+        # mais ce n'est pas obligatoire
+        return self
+
+    def affiche_depense(self):
+        """Affiche le total dépensé par le client"""
+        print(f"Le client {self.prenom} {self.nom} a dépensé un total de {self.total_depense}€")
+
+    def compare_depense(self, client2):
+        """Compare le client avec un autre client, et renvoie l'identifiant du client ayant dépensé le plus.
+
+        Args:
+            client2 (Client): Une autre instance de la classe Client.
+
+        Returns:
+            int
+        """
+        if self.total_depense == client2.total_depense:
+            print(f"{self.prenom} {self.nom} et {client2.prenom} {client2.nom} ont dépensé le même montant.")
+            id_plus_grosse_depense = self.id
+        elif self.total_depense > client2.total_depense:
+            id_plus_grosse_depense = self.id
+        else:
+            id_plus_grosse_depense = client2.id
+        return id_plus_grosse_depense
+
+
+alex = Client("alex", "rider")
+john = Client("john", "smith")
+alex.affiche_client()
+john.affiche_client()
+alex.affiche_depense()
+alex.ajouter_depense(10)
+alex.affiche_depense()
+john.ajouter_depense(10)
+alex.compare_depense(john)
+john.ajouter_depense(15)
+alex.compare_depense(john)
+
+
+
+
+class ClientVIP(Client):
+    """Définir un client VIP"""
+
+    def __init__(self, prenom, nom, total_depense=0):
+        """Constructeur de la classe ClientVIP"""
+        self.nombre_bons = 3
+        super().__init__(prenom, nom, total_depense)
+
+    def afficher_bons_restants(self):
+        print(f"Le client {self.prenom} {self.nom} a {self.nombre_bons} bons restants.")
+
+    def ajouter_depense(self, montant):
+        """Ajoute une dépense au total dépensé par le client. Si le client a des bons,
+        on ajoute sa dépense moins 10%.
+        
+        Args:
+            montant (float): Dépense du client
+            
+        """
+        if self.nombre_bons > 0:
+            self.total_depense = self.total_depense + montant * 0.9
+            self.nombre_bons -= 1
+            print("Un bon de 10% a été utilisé.")
+            self.afficher_bons_restants()
+        else :
+            # Soit on réécrit la ligne de code pour ajouter le montant sans réduction
+            # self.total_depense = self.total_depense + montant
+            
+            # Sinon, pour éviter de réécrire le même code que dans Client.ajouter_depense,
+            # on peut appeler cette méthode par héritage avec super()
+            super().ajouter_depense(montant)
+        return self
+
+
+jack = ClientVIP("jack", "sparrow")
+jack.affiche_client()
+jack.afficher_bons_restants()
+jack.affiche_depense()
+
+jack.ajouter_depense(10)
+jack.affiche_depense()
+jack.ajouter_depense(8)
+jack.affiche_depense()
+jack.ajouter_depense(15)
+jack.affiche_depense()
+
+jack.ajouter_depense(10) # il n'y a plus de bon restants
+jack.affiche_depense()
